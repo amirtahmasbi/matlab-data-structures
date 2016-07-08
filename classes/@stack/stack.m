@@ -1,12 +1,19 @@
 classdef stack < handle
-    % By: Amir Tahmasbi
-    % Date: 6/29/2016
+    % The class stack extends handle
+    % Implements a stack
+    % 
+    % Created on 6/29/2016
+    % By Amir Tahmasbi
+    
     % --------------------- properties ------------------ %
     properties (Access = private)
-        Data;
-        SP;
+        data;
+        stackPointer;
+    end
+    properties (SetAccess = private)
         stackSize = 512;
     end
+    
     % --------------------- methods --------------------- %
     methods
         % class constructor
@@ -14,23 +21,23 @@ classdef stack < handle
             if nargin>0
                 obj.stackSize = stackSize;
             end
-            obj.SP = 0;
-            obj.Data = cell(1,obj.stackSize);
+            obj.stackPointer = 0;
+            obj.data = cell(1,obj.stackSize);
         end
         % push method
         function obj = push(obj, entry)
-            if obj.SP < obj.stackSize
-                obj.SP = obj.SP + 1;
-                obj.Data{obj.SP} = entry;
+            if obj.stackPointer < obj.stackSize
+                obj.stackPointer = obj.stackPointer + 1;
+                obj.data{obj.stackPointer} = entry;
             else
-                error('The stack is full.');
+                error('Stack overflow.');
             end
         end
         % pop method
         function output = pop(obj)
-            if obj.SP > 0 
-                output = obj.Data{obj.SP};
-                obj.SP = obj.SP - 1;
+            if obj.stackPointer > 0 
+                output = obj.data{obj.stackPointer};
+                obj.stackPointer = obj.stackPointer - 1;
             else
                error('The stack is empty.'); 
             end
@@ -38,25 +45,25 @@ classdef stack < handle
         % isempty method
         function output = isempty(obj)
             output = false;
-            if ~obj.SP
+            if ~obj.stackPointer
                 output = true; 
             end
         end
         % isfull method
         function output = isfull(obj)
             output = false;
-            if obj.SP == obj.stackSize
+            if obj.stackPointer == obj.stackSize
                 output = true; 
             end
         end
         % getSize method
         function output = getSize(obj)
-            output = obj.SP;
+            output = obj.stackPointer;
         end
         % top method
         function output = top(obj)
-            if obj.SP > 0 
-                output = obj.Data{obj.SP};
+            if obj.stackPointer > 0 
+                output = obj.data{obj.stackPointer};
             else
                error('The stack is empty.'); 
             end
